@@ -23,6 +23,46 @@ config MPTCP_IPV6
 	depends on IPV6=y
 	default y
 
+config MPTCP_SCHED_RR
+	bool "MPTCP: Round-Robin Scheduler"
+	default y
+
+config MPTCP_SCHED_RR_TIME
+        bool "MPTCP: Round-Robin Time Scheduler"
+        default y
+
+config MPTCP_SCHED_REDUNDANT
+	bool "MPTCP: Redundant Scheduler"
+	default y
+    help
+      This enables the redundant MPTCP scheduler, which sends packets
+      redundantly across all available subflows.
+
+config MPTCP_SCHED_RTTTHRESH
+        bool "MPTCP: RTT Thresh Scheduler"
+        default y
+    help
+      This enables the RRT Thresh MPTCP scheduler, which sends packets
+      redundantly across all available subflows.
+
+config MPTCP_LRTT
+    bool "Lowest RTT First scheduler"
+    default y
+
+config MPTCP_SCHED_STRICTPRIO
+    bool "Strict Priority scheduler"
+    default y
+    help
+      Always sends traffic over the highest priority path.
+
+config MPTCP_SCHED_PORTSCHED
+    bool "Port scheduler"    
+    default y
+
+config MPTCP_SCHED_CLIENTPORTSCHED
+    bool "Client Port scheduler"
+    default y
+
 config MPTCP_KUNIT_TEST
 	tristate "This builds the MPTCP KUnit tests" if !KUNIT_ALL_TESTS
 	depends on KUNIT

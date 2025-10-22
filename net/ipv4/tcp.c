@@ -3928,6 +3928,10 @@ int do_tcp_setsockopt(struct sock *sk, int level, int optname,
 	sockopt_lock_sock(sk);
 
 	switch (optname) {
+	case TCP_MAXSEG:
+		tcp_sock_set_maxseg(sk, val);
+		break;
+
 	case TCP_NODELAY:
 		__tcp_sock_set_nodelay(sk, val);
 		break;

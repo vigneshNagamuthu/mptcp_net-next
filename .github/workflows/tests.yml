@@ -170,7 +170,6 @@ jobs:
           format: lcov
           allow-empty: true
           compare-ref: ${{ steps.branch.outputs.name }}
-          fail-on-error: false
 
       - name: "Publish Test Results"
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -217,7 +216,6 @@ jobs:
         with:
           parallel-finished: true
           carryforward: "normal,debug,btf-normal,btf-debug"
-          fail-on-error: false
 
   notif:
     name: "Notifications"
@@ -428,7 +426,7 @@ jobs:
                 -F "target_url=${3}" \
                 -F "context=${1//[ :()]/_}" \
                 -F "description=${2}" \
-                "${check_url}"
+                "${check_url}" | jq '.'
             done
           }
 
