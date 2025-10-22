@@ -38,6 +38,9 @@
 #define OPTIONS_MPTCP_MPJ	(OPTION_MPTCP_MPJ_SYN | OPTION_MPTCP_MPJ_SYNACK | \
 				 OPTION_MPTCP_MPJ_ACK)
 
+/* Define the scheduler data size */
+#define MPTCP_SCHED_PRIV_DATA_SIZE 32
+
 /* MPTCP option subtypes */
 #define MPTCPOPT_MP_CAPABLE	0
 #define MPTCPOPT_MP_JOIN	1
@@ -352,6 +355,7 @@ struct mptcp_sock {
 	u32		subflow_id;
 	u32		setsockopt_seq;
 	char		ca_name[TCP_CA_NAME_MAX];
+	int		rr_idx;
 };
 
 #define mptcp_data_lock(sk) spin_lock_bh(&(sk)->sk_lock.slock)
@@ -576,6 +580,13 @@ struct mptcp_subflow_context {
 	void	(*tcp_error_report)(struct sock *sk);
 
 	struct	rcu_head rcu;
+	union {
+		char scheduler_data[32];
+		struct {
+			u32 last_idx;
+		};
+	};
+
 };
 
 static inline struct mptcp_subflow_context *
